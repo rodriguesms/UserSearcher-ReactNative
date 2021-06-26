@@ -1,13 +1,24 @@
-import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
-import { List, Colors } from 'react-native-paper';
+import React, {useState} from 'react';
+import { StyleSheet, TextInput, View, Text } from 'react-native';
+import { Colors, IconButton } from 'react-native-paper';
 import AppLoading  from 'expo-app-loading';
-import { useFonts, PTSans_400Regular } from '@expo-google-fonts/pt-sans';
+import { useFonts, PTSans_400Regular, PTSans_700Bold } from '@expo-google-fonts/pt-sans';
 
-export default function SearchBar(){
+interface SearchBarProps{}
 
+function goToResults(user:string){
+    return(
+        console.log(user)
+    );
+}
+
+const SearchBar: React.FunctionComponent<SearchBarProps> = ({}) => {
+
+    const [user, setUser] = useState("");
+    const [warning, setWarning] = useState("")
     let [fontsLoaded] = useFonts({
-        PTSans_400Regular
+        PTSans_400Regular,
+        PTSans_700Bold
     });
 
     if (!fontsLoaded){
@@ -15,13 +26,31 @@ export default function SearchBar(){
     }
 
     return(
-        <View style={styles.bar}>
-            <TextInput 
-                style={styles.input}
-                placeholder="Search username..."
-            />
-            <List.Icon color={Colors.grey900} icon="account-search-outline"/>
+        <View style={{flexDirection: 'column', alignItems: 'center'}}>
+            <View style={styles.bar}>
+                <TextInput 
+                    style={styles.input}
+                    placeholder={"Search User..."}
+                    value={user}
+                    onChangeText={setUser}
+                />
+                <IconButton 
+                    color={Colors.grey900} 
+                    icon="account-search-outline"
+                    onPress={() => {
+                        if(user!=""){
+                            setWarning("");
+                            goToResults(user);
+                        }else{
+                            setWarning("Invalid User");
+                            }
+                        }
+                    }
+                />
+            </View>
+            <Text style={styles.warning}>{warning}</Text>
         </View>
+        
     );
 }
 
@@ -49,5 +78,12 @@ const styles = StyleSheet.create({
         width: '70%',
         fontFamily: 'PTSans_400Regular',
         fontSize: 16
+    },
+    warning: {
+        marginTop: 10,
+        color: '#DE1738',
+        fontFamily: 'PTSans_700Bold'
     }
 });
+
+export default SearchBar;

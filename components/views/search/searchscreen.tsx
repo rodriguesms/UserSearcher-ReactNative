@@ -3,10 +3,10 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import SearchBar from './searchBar';
 import AppLoading  from 'expo-app-loading';
 import { useFonts, PTSans_400Regular } from '@expo-google-fonts/pt-sans';
-import { black } from 'react-native-paper/lib/typescript/styles/colors';
 
+interface SearchScreenProps{ }
 
-export default function SearchScreen(){
+const SearchScreen: React.FunctionComponent<SearchScreenProps> = ({}) => {
 
     let [fontsLoaded] = useFonts({
         PTSans_400Regular
@@ -52,3 +52,5 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly'
     },
   });
+
+  export default SearchScreen;
