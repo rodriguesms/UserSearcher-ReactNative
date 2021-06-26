@@ -4,9 +4,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { SearchScreen } from '../views/search';
 import { ResultScreen } from '../views/results';
 
-interface NavigationModuleProps{ }
+type NavigationModuleProps = { };
 
-const Stack = createStackNavigator();
+export type RootStackParamList = {
+    Home: undefined;
+    Results: { user: string };
+}
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 const NavigationModule: React.FunctionComponent<NavigationModuleProps> = ({}) => {
     return(

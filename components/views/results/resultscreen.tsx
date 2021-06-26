@@ -3,17 +3,28 @@ import { View, StyleSheet } from 'react-native';
 import TopBar from './topBar';
 import AppLoading  from 'expo-app-loading';
 import { useFonts, PTSans_400Regular } from '@expo-google-fonts/pt-sans';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../navigation/navigationModule';
+import { RouteProp } from '@react-navigation/native'
 
-interface ResultScreenProps {
-    userSearched: string
- }
+type ResultScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Results'>;
+type ResultScreenRouteProp = RouteProp<RootStackParamList, 'Results'>;
+
+type ResultScreenProps = {
+    navigation: ResultScreenNavigationProp;
+    route: ResultScreenRouteProp;
+}
+
 
 const ResultScreen: React.FunctionComponent<ResultScreenProps> = ({
-    userSearched
+    navigation,
+    route
 }) => {
     let [fontsLoaded] = useFonts({
         PTSans_400Regular
     });
+
+    let userSearched = route.params
 
     if (!fontsLoaded){
         return <AppLoading />;
@@ -21,7 +32,7 @@ const ResultScreen: React.FunctionComponent<ResultScreenProps> = ({
     
     return(
         <View style={styles.container}>
-            <TopBar userSearched={userSearched} />
+            <TopBar userSearched={userSearched.user} />
         </View>
     );
 }

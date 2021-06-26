@@ -3,10 +3,22 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import SearchBar from './searchBar';
 import AppLoading  from 'expo-app-loading';
 import { useFonts, PTSans_400Regular } from '@expo-google-fonts/pt-sans';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../navigation/navigationModule';
+import { RouteProp } from '@react-navigation/native'
 
-interface SearchScreenProps{ }
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;
 
-const SearchScreen: React.FunctionComponent<SearchScreenProps> = ({}) => {
+type SearchScreenProps = {
+    navigation: HomeScreenNavigationProp;
+    route: HomeScreenRouteProp;
+}
+
+const SearchScreen: React.FunctionComponent<SearchScreenProps> = ({
+    navigation,
+    route
+}) => {
 
     let [fontsLoaded] = useFonts({
         PTSans_400Regular
@@ -25,7 +37,7 @@ const SearchScreen: React.FunctionComponent<SearchScreenProps> = ({}) => {
                 />
             </View>
             <View style={{flex: 2, width: '100%', alignItems: 'center', justifyContent: 'space-between'}}>
-                <SearchBar />
+                <SearchBar navigation={navigation} route={route} />
                 <Text style={{marginBottom: 20, fontSize: 15, fontFamily: 'PTSans_400Regular', color: 'white'}}>Desafio Sisenex Mobile</Text>
             </View>
         </View>

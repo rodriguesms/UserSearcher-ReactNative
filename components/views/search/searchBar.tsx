@@ -3,18 +3,23 @@ import { StyleSheet, TextInput, View, Text } from 'react-native';
 import { Colors, IconButton } from 'react-native-paper';
 import AppLoading  from 'expo-app-loading';
 import { useFonts, PTSans_400Regular, PTSans_700Bold } from '@expo-google-fonts/pt-sans';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../navigation/navigationModule';
+import { RouteProp } from '@react-navigation/native'
 
-interface SearchBarProps{}
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;
 
-function goToResults(user:string){
-    return(
-        console.log(user)
-    );
+type SearchBarProps = {
+    navigation: HomeScreenNavigationProp;
+    route: HomeScreenRouteProp;
 }
 
-const SearchBar: React.FunctionComponent<SearchBarProps> = ({}) => {
+const SearchBar: React.FunctionComponent<SearchBarProps> = ({
+    navigation, route
+}) => {
 
-    const [user, setUser] = useState("");
+    const [userSearched, setUser] = useState("");
     const [warning, setWarning] = useState("")
     let [fontsLoaded] = useFonts({
         PTSans_400Regular,
@@ -31,16 +36,18 @@ const SearchBar: React.FunctionComponent<SearchBarProps> = ({}) => {
                 <TextInput 
                     style={styles.input}
                     placeholder={"Search User..."}
-                    value={user}
+                    value={userSearched}
                     onChangeText={setUser}
                 />
                 <IconButton 
                     color={Colors.grey900} 
                     icon="account-search-outline"
                     onPress={() => {
-                        if(user!=""){
+                        if(userSearched!=""){
                             setWarning("");
-                            goToResults(user);
+                            navigation.navigate('Results', {
+                                user: userSearched
+                            })
                         }else{
                             setWarning("Invalid User");
                             }
@@ -82,7 +89,8 @@ const styles = StyleSheet.create({
     warning: {
         marginTop: 10,
         color: '#DE1738',
-        fontFamily: 'PTSans_700Bold'
+        fontFamily: 'PTSans_700Bold',
+        fontSize: 16
     }
 });
 

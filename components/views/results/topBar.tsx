@@ -3,14 +3,18 @@ import {View, StyleSheet, TextInput} from 'react-native';
 import { List, Colors } from 'react-native-paper';
 import AppLoading  from 'expo-app-loading';
 import { useFonts, PTSans_400Regular } from '@expo-google-fonts/pt-sans';
+import { useState } from 'react';
 
-interface TopBarProps{
+type TopBarProps = {
     userSearched: string
 }
 
 const TopBar: React.FunctionComponent<TopBarProps> =({
     userSearched
 }) => {
+
+    const [userName, setUserSearch] = useState(userSearched);
+
     let [fontsLoaded] = useFonts({
         PTSans_400Regular
     });
@@ -18,7 +22,8 @@ const TopBar: React.FunctionComponent<TopBarProps> =({
     if (!fontsLoaded){
         return <AppLoading />;
     }
-    
+
+
     return(
         <View style={styles.container}>
             <View style={styles.searchbox}>
@@ -26,6 +31,8 @@ const TopBar: React.FunctionComponent<TopBarProps> =({
                 <TextInput 
                     style={styles.input}
                     placeholder="Search username..."
+                    value={userName}
+                    onChangeText={setUserSearch}
                 />
                 <List.Icon color={Colors.grey900} icon="magnify"/>
             </View>
