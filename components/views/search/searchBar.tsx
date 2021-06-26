@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 12,
         height: '100%',
         width: '70%',
-        fontFamily: 'PTSans_400Regular'
+        fontFamily: 'PTSans_400Regular',
+        fontSize: 16
     }
 });
