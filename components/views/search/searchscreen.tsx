@@ -13,11 +13,13 @@ type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;
 type SearchScreenProps = {
     navigation: HomeScreenNavigationProp;
     route: HomeScreenRouteProp;
+    userName?: string
 }
 
 const SearchScreen: React.FunctionComponent<SearchScreenProps> = ({
     navigation,
-    route
+    route,
+    userName
 }) => {
 
     let [fontsLoaded] = useFonts({
