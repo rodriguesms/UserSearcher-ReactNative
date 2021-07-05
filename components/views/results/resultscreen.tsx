@@ -14,6 +14,10 @@ type ResultScreenRouteProp = RouteProp<RootStackParamList, 'Results'>;
 type ResultScreenProps = {
     navigation: ResultScreenNavigationProp;
     route: ResultScreenRouteProp;
+    id: number;
+    login: string;
+    avatar_url: string;
+    type: string;
 }
 
 const ResultScreen: React.FunctionComponent<ResultScreenProps> = ({
@@ -57,7 +61,7 @@ const ResultScreen: React.FunctionComponent<ResultScreenProps> = ({
                 <FlatList
                     data = {data}
                     keyExtractor={({ id }, index) => id.toString()}
-                    renderItem={({ item }) => (
+                    renderItem={({ item }: {item: ResultScreenProps}) => (
                         <ResultProfile id={item.id} login={item.login} avatar_url={item.avatar_url} type={item.type} />
                     )}
                 />
