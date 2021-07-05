@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, TextInput, View, Text } from 'react-native';
 import { Colors, IconButton } from 'react-native-paper';
 import AppLoading  from 'expo-app-loading';
@@ -25,6 +25,14 @@ const SearchBar: React.FunctionComponent<SearchBarProps> = ({
         PTSans_400Regular,
         PTSans_700Bold
     });
+
+    const [load,setLoad] = useState(true)
+
+    useEffect(()=>{
+        setUser("")
+        navigation.addListener('focus', ()=>setLoad(!load))
+    },[load, navigation])
+
 
     if (!fontsLoaded){
         return <AppLoading />;

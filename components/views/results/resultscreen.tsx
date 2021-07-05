@@ -7,6 +7,7 @@ import { useFonts, PTSans_400Regular } from '@expo-google-fonts/pt-sans';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../navigation/navigationModule';
 import { RouteProp } from '@react-navigation/native'
+import EmptyState from './emptyState'
 
 type ResultScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Results'>;
 type ResultScreenRouteProp = RouteProp<RootStackParamList, 'Results'>;
@@ -62,18 +63,21 @@ const ResultScreen: React.FunctionComponent<ResultScreenProps> = ({
     if (!fontsLoaded){
         return <AppLoading />;
     }
-
+   
     return(
         <View style={styles.container}>
             <TopBar userSearched={userSearched} navigation={navigation} route={route} setUserSearched={setUserSearched} searchAgain={searchUser} isLoading={isLoading}/>
             {isLoading ? <ActivityIndicator /> : (
-                <FlatList
-                    data = {data}
-                    keyExtractor={({ id }, index) => id.toString()}
-                    renderItem={({ item }) => (
-                        <ResultProfile id={item.id} login={item.login} avatar_url={item.avatar_url} type={item.type} />
-                    )}
-                />
+                <View style={{flex:1}}>
+                    {(Object.keys(data).length > 0) ? 
+                        <FlatList
+                            data = {data}
+                            keyExtractor={({ id }, index) => id.toString()}
+                            renderItem={({ item }) => (
+                                <ResultProfile id={item.id} login={item.login} avatar_url={item.avatar_url} type={item.type} />
+                            )}
+                        /> : <EmptyState />}
+                </View>
             )}
         </View>
     );

@@ -27,6 +27,7 @@ const ResultProfile: React.FunctionComponent<resultProfileProps> = ({
         return <AppLoading />;
     }
 
+
     return(
         <TouchableOpacity>
             <View style={styles.container}>
@@ -49,7 +50,6 @@ const ResultProfile: React.FunctionComponent<resultProfileProps> = ({
                 </View>
             </View>
         </TouchableOpacity>
-
     );
 
 }

@@ -35,7 +35,7 @@ const TopBar: React.FunctionComponent<TopBarProps> =({
     if (!fontsLoaded){
         return <AppLoading />;
     }
-    
+
     return(
         <View style={styles.container}>
             <View style={styles.searchbox}>
@@ -47,7 +47,7 @@ const TopBar: React.FunctionComponent<TopBarProps> =({
                     onChangeText={(userSearched: string) => setUserSearched(userSearched)}
                 />
                 {   isLoading ?    <ActivityIndicator animating={true} color={Colors.grey400} style={{marginRight: 10}} />  :
-                    <IconButton color={Colors.grey900} icon="magnify" onPress={(userSearched) => searchAgain(userSearched)} />}
+                    <IconButton color={Colors.grey900} icon="magnify" onPress={(userSearched) => searchAgain(userSearched)} />  }
             </View>
         </View>
     );
