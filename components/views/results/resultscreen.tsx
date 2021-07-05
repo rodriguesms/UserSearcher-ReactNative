@@ -27,12 +27,12 @@ const ResultScreen: React.FunctionComponent<ResultScreenProps> = ({
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
-    let userSearched = route.params
+    let userSearched = route.params.user;
 
     useEffect(() =>{
-        fetch('https://api.github.com/search/users?q='+userSearched)
+        fetch(`https://api.github.com/search/users?q=${userSearched}`)
         .then((response) => response.json())
-        .then((json) => setData(json.items))
+        .then((responseJson) => setData(responseJson.items))
         .catch((error) => console.error(error))
         .finally(() => setLoading(false));
     }, []);
@@ -52,13 +52,13 @@ const ResultScreen: React.FunctionComponent<ResultScreenProps> = ({
 
     return(
         <View style={styles.container}>
-            <TopBar userSearched={userSearched.user} navigation={navigation} route={route} />
+            <TopBar userSearched={userSearched} navigation={navigation} route={route} />
             {isLoading ? <ActivityIndicator /> : (
                 <FlatList
                     data = {data}
-                    keyExtractor={({ id }, index) => id}
-                    renderItem={({ items }) => (
-                        <ResultProfile id={items.id} login={items.login} avatar_url={items.avatar_url} type={items.type} />
+                    keyExtractor={({ id }, index) => id.toString()}
+                    renderItem={({ item }) => (
+                        <ResultProfile id={item.id} login={item.login} avatar_url={item.avatar_url} type={item.type} />
                     )}
                 />
             )}
