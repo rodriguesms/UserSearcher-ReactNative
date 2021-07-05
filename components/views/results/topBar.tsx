@@ -1,9 +1,8 @@
 import React from 'react';
 import {View, StyleSheet, TextInput} from 'react-native';
-import { IconButton, Colors } from 'react-native-paper';
+import { IconButton, Colors, ActivityIndicator } from 'react-native-paper';
 import AppLoading  from 'expo-app-loading';
 import { useFonts, PTSans_400Regular } from '@expo-google-fonts/pt-sans';
-import { useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../navigation/navigationModule';
 import { RouteProp } from '@react-navigation/native'
@@ -15,15 +14,19 @@ type TopBarProps = {
     navigation: ResultScreenNavigationProp;
     route: ResultScreenRouteProp;
     userSearched: string;
+    setUserSearched: Function;
+    searchAgain: Function;
+    isLoading: boolean;
 }
 
 const TopBar: React.FunctionComponent<TopBarProps> =({
     navigation,
     route,
-    userSearched
+    userSearched,
+    setUserSearched,
+    searchAgain,
+    isLoading
 }) => {
-
-    const [userName, setUserSearch] = useState(userSearched);
 
     let [fontsLoaded] = useFonts({
         PTSans_400Regular
@@ -32,8 +35,7 @@ const TopBar: React.FunctionComponent<TopBarProps> =({
     if (!fontsLoaded){
         return <AppLoading />;
     }
-
-
+    
     return(
         <View style={styles.container}>
             <View style={styles.searchbox}>
@@ -41,13 +43,15 @@ const TopBar: React.FunctionComponent<TopBarProps> =({
                 <TextInput 
                     style={styles.input}
                     placeholder="Search username..."
-                    value={userName}
-                    onChangeText={setUserSearch}
+                    value={userSearched}
+                    onChangeText={(userSearched: string) => setUserSearched(userSearched)}
                 />
-                <IconButton color={Colors.grey900} icon="magnify" />
+                {   isLoading ?    <ActivityIndicator animating={true} color={Colors.grey400} style={{marginRight: 10}} />  :
+                    <IconButton color={Colors.grey900} icon="magnify" onPress={(userSearched) => searchAgain(userSearched)} />}
             </View>
         </View>
     );
+    
 }
 
 const styles = StyleSheet.create({

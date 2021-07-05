@@ -24,18 +24,31 @@ const ResultScreen: React.FunctionComponent<ResultScreenProps> = ({
         PTSans_400Regular
     });
 
-    const [isLoading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
+    interface dataTypes {
+        id: number,
+        login: string,
+        avatar_url: string,
+        type: string
+    }
 
-    let userSearched = route.params.user;
-
+    const [isLoading, setLoading] = useState<boolean>(true);
+    const [data, setData] = useState<dataTypes | any>([]);
+    const [userSearched, setUserSearched] = useState<string>(route.params.user);
+    
     useEffect(() =>{
+        searchUser();
+    }, []);
+
+    const searchUser = () => {
+
+        setLoading(true);
+
         fetch(`https://api.github.com/search/users?q=${userSearched}`)
         .then((response) => response.json())
         .then((responseJson) => setData(responseJson.items))
         .catch((error) => console.error(error))
         .finally(() => setLoading(false));
-    }, []);
+    }
 
     /* fetch('https://api.github.com/search/users?q='+userSearched)
     .then((response) => response.json())
@@ -52,7 +65,7 @@ const ResultScreen: React.FunctionComponent<ResultScreenProps> = ({
 
     return(
         <View style={styles.container}>
-            <TopBar userSearched={userSearched} navigation={navigation} route={route} />
+            <TopBar userSearched={userSearched} navigation={navigation} route={route} setUserSearched={setUserSearched} searchAgain={searchUser} isLoading={isLoading}/>
             {isLoading ? <ActivityIndicator /> : (
                 <FlatList
                     data = {data}
