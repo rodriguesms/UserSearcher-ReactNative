@@ -21,7 +21,7 @@ const BottomInfo: React.FunctionComponent<BottomInfoProps> = ({
         updated_at: string,
         watchers: number,
         language: string,
-        license: Object        
+        license: any        
     }
 
     const[repositoriesData, setRepositoriesData] = useState<Array<Repos>>([])
