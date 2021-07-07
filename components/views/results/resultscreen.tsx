@@ -6,8 +6,9 @@ import AppLoading  from 'expo-app-loading';
 import { useFonts, PTSans_400Regular } from '@expo-google-fonts/pt-sans';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../navigation/navigationModule';
-import { RouteProp } from '@react-navigation/native'
+import { CurrentRenderContext, RouteProp } from '@react-navigation/native'
 import EmptyState from './emptyState'
+import { useValue } from 'react-native-reanimated';
 
 type ResultScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Results'>;
 type ResultScreenRouteProp = RouteProp<RootStackParamList, 'Results'>;
@@ -51,15 +52,6 @@ const ResultScreen: React.FunctionComponent<ResultScreenProps> = ({
         .finally(() => setLoading(false));
     }
 
-    /* fetch('https://api.github.com/search/users?q='+userSearched)
-    .then((response) => response.json())
-    .then((json) => {
-        return json.items
-    })
-    .catch((error) => {
-        console.error(error);
-      }); */
-
     if (!fontsLoaded){
         return <AppLoading />;
     }
@@ -67,14 +59,19 @@ const ResultScreen: React.FunctionComponent<ResultScreenProps> = ({
     return(
         <View style={styles.container}>
             <TopBar userSearched={userSearched} navigation={navigation} route={route} setUserSearched={setUserSearched} searchAgain={searchUser} isLoading={isLoading}/>
-            {isLoading ? <ActivityIndicator /> : (
+            {isLoading ? (
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <ActivityIndicator animating={true} color={'#3F3D3B'} size={'large'} />
+                </View>
+            )
+             : (
                 <View style={{flex:1}}>
                     {(Object.keys(data).length > 0) ? 
                         <FlatList
                             data = {data}
                             keyExtractor={({ id }, index) => id.toString()}
                             renderItem={({ item }) => (
-                                <ResultProfile id={item.id} login={item.login} avatar_url={item.avatar_url} type={item.type} />
+                                <ResultProfile id={item.id} login={item.login} avatar_url={item.avatar_url} type={item.type} navigation={navigation} route={route}/>
                             )}
                         /> : <EmptyState />}
                 </View>

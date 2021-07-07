@@ -3,8 +3,16 @@ import { View, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
 import { useFonts, PTSans_400Regular, PTSans_700Bold } from '@expo-google-fonts/pt-sans';
 import AppLoading from 'expo-app-loading';
 import { Colors, List } from 'react-native-paper';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../navigation/navigationModule';
+import { RouteProp } from '@react-navigation/native'
+
+type ResultScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Results'>;
+type ResultScreenRouteProp = RouteProp<RootStackParamList, 'Results'>;
 
 type resultProfileProps = {
+    navigation: ResultScreenNavigationProp,
+    route: ResultScreenRouteProp
     id: number,
     login: string,
     avatar_url: string,
@@ -12,6 +20,8 @@ type resultProfileProps = {
 }
 
 const ResultProfile: React.FunctionComponent<resultProfileProps> = ({
+    navigation,
+    route,
     id,
     login,
     avatar_url,
@@ -29,7 +39,11 @@ const ResultProfile: React.FunctionComponent<resultProfileProps> = ({
 
 
     return(
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+            navigation.navigate('Profile', {
+            login: login
+        })}
+        }>
             <View style={styles.container}>
                 <View style={{flex: 1, justifyContent: 'center'}}>
                     <Image
